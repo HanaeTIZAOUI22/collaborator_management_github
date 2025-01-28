@@ -1,0 +1,31 @@
+.collaborator-form {
+  max-width: 400px;
+  margin: auto;
+
+  form {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      margin-bottom: 10px;
+
+      input {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+      }
+    }
+
+    button {
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+}
