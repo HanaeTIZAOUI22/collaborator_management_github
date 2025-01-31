@@ -1,43 +1,24 @@
 trigger:
-- main
+  branches:
+    include:
+      - main
 
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: UseNode@0
+- task: NodeTool@0
   inputs:
-    versionSpec: '20.x'
-  displayName: 'Use Node.js 20.x'
+    versionSpec: '14.x'
+  displayName: 'Install Node.js'
 
 - script: |
-    npm install -g npm@11.1.0
-    npm install @types/eslint@latest @types/estree@latest --save-dev
-    npm cache clean --force
     npm install
-  displayName: 'Install and update npm packages'
+    npm run build
+  displayName: 'Install dependencies and build'
 
-- script: |
-    npx tsc
-  displayName: 'Compile TypeScript'
-
-- script: |
-    if [ -f "collaborator-management-frontend/src/styles/styles.scss" ]; then
-      npx sass collaborator-management-frontend/src/styles/styles.scss dist/styles.css
-    else
-      echo "File collaborator-management-frontend/src/styles/styles.scss does not exist."
-      exit 1
-    fi
-  displayName: 'Compile SCSS to CSS'
-
-- task: CopyFiles@2
+- task: PublishBuildArtifacts@1
   inputs:
-    contents: '**'
-    targetFolder: '$(Build.ArtifactStagingDirectory)'
-  displayName: 'Copy files to staging directory'
-
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: '$(Build.ArtifactStagingDirectory)'
-    artifact: 'drop'
-  displayName: 'Publish Pipeline Artifact'
+    PathtoPublish: 'dist'
+    ArtifactName: 'drop'
+  displayName: 'Publish build artifacts'
