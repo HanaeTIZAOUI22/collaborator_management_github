@@ -5,12 +5,32 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: Maven@3
+- task: NodeTool@0
   inputs:
-    mavenPomFile: 'pom.xml'
-    mavenOptions: '--batch-mode'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.8'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    goals: 'package'
+    versionSpec: '14.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install -g npm@latest
+    npm install
+  displayName: 'Install npm packages'
+
+- script: |
+    npx tsc
+  displayName: 'Compile TypeScript'
+
+- script: |
+    npx sass src/styles.scss dist/styles.css
+  displayName: 'Compile SCSS to CSS'
+
+- task: CopyFiles@2
+  inputs:
+    contents: '**'
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
+  displayName: 'Copy files to staging directory'
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)'
+    artifact: 'drop'
+  displayName: 'Publish Pipeline Artifact'
