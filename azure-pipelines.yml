@@ -12,8 +12,10 @@ steps:
 
 - script: |
     npm install -g npm@11.1.0
+    npm install @types/eslint@latest @types/estree@latest --save-dev
+    npm cache clean --force
     npm install
-  displayName: 'Install npm packages'
+  displayName: 'Install and update npm packages'
 
 - script: |
     npx tsc
@@ -34,4 +36,3 @@ steps:
     targetPath: '$(Build.ArtifactStagingDirectory)'
     artifact: 'drop'
   displayName: 'Publish Pipeline Artifact'
-  
