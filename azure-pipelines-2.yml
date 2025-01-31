@@ -34,9 +34,3 @@ steps:
       $(Build.BuildId)
   displayName: 'Build and Push Docker Image'
 
-- task: AzureWebApp@1
-  inputs:
-    azureSubscription: 'hanaetizaoui'
-    appName: 'collaborator_managementAppService'
-    package: $(Build.ArtifactStagingDirectory)/*.zip
-  displayName: 'Deploy to Azure Web App'
