@@ -1,0 +1,42 @@
+# azure-pipelines.yml
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '14.x'
+  displayName: 'Install Node.js'
+  
+- script: |
+    npm install
+    npm run build
+  displayName: 'Install dependencies and build'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'dist'
+    ArtifactName: 'drop'
+  displayName: 'Publish build artifacts'
+
+- task: Docker@2
+  inputs:
+    containerRegistry: '$(dockerRegistryServiceConnection)'
+    repository: 'your-docker-repo/your-app'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+    tags: |
+      $(Build.BuildId)
+  displayName: 'Build and Push Docker Image'
+
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'your-azure-subscription'
+    appName: 'your-app-service-name'
+    package: $(Build.ArtifactStagingDirectory)/*.zip
+  displayName: 'Deploy to Azure Web App'
