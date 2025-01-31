@@ -26,8 +26,8 @@ steps:
 
 - task: Docker@2
   inputs:
-    containerRegistry: '$(dockerRegistryServiceConnection)'
-    repository: 'your-docker-repo/your-app'
+    containerRegistry: 'MyDockerRegistryServiceConnection'
+    repository: 'hanaetizaoui22/collaborator_management_app'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
     tags: |
@@ -37,6 +37,6 @@ steps:
 - task: AzureWebApp@1
   inputs:
     azureSubscription: 'hanaetizaoui'
-    appName: 'collaborator_management'
+    appName: 'collaborator_managementAppService'
     package: $(Build.ArtifactStagingDirectory)/*.zip
   displayName: 'Deploy to Azure Web App'
