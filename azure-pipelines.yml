@@ -22,7 +22,12 @@ steps:
   displayName: 'Compile TypeScript'
 
 - script: |
-    npx sass src/styles.scss dist/styles.css
+    if [ -f "collaborator-management-frontend/src/styles/main.scss" ]; then
+      npx sass collaborator-management-frontend/src/styles/main.scss dist/styles.css
+    else
+      echo "File collaborator-management-frontend/src/styles/main.scss does not exist."
+      exit 1
+    fi
   displayName: 'Compile SCSS to CSS'
 
 - task: CopyFiles@2
