@@ -34,4 +34,3 @@ steps:
     targetPath: '$(Build.ArtifactStagingDirectory)'
     artifact: 'drop'
   displayName: 'Publish Pipeline Artifact'
-  
