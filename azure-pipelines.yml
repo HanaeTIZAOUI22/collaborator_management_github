@@ -11,7 +11,7 @@ steps:
   displayName: 'Use Node.js 20.x'
 
 - script: |
-    npm install -g npm@latest
+    npm install -g npm@11.1.0
     npm install
   displayName: 'Install npm packages'
 
@@ -34,3 +34,4 @@ steps:
     targetPath: '$(Build.ArtifactStagingDirectory)'
     artifact: 'drop'
   displayName: 'Publish Pipeline Artifact'
+  
