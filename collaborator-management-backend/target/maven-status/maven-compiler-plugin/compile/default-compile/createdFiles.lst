@@ -1,0 +1,7 @@
+com/company/model/Collaborator.class
+com/company/controller/CollaboratorController.class
+com/company/config/CorsConfiguration$1.class
+com/company/service/CollaboratorService.class
+com/company/CollaboratorManagementApplication.class
+com/company/repository/CollaboratorRepository.class
+com/company/config/CorsConfiguration.class
