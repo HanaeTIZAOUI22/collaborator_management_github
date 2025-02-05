@@ -47,12 +47,3 @@ steps:
     ArtifactName: 'drop'
     publishLocation: 'Container'
 
-# Étape 7 : Déployer sur Azure App Service (si applicable)
-- task: AzureWebApp@1
-  inputs:
-    azureSubscription: 'Concierge Subscription'
-    appType: 'webApp'
-    appName: 'collaborator_management'
-    package: $(Pipeline.Workspace)/drop
-
-  
