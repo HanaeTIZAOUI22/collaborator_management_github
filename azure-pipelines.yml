@@ -21,7 +21,7 @@ steps:
     command: 'buildAndPush'
     repository: '$(dockerId)/collaborator_management_github'
     dockerfile: '**/Dockerfile'
-    containerRegistry: 'dockerRegistryServiceConnection'  # Assurez-vous que le nom correspond à celui créé
+    containerRegistry: 'MyDockerRegistryServiceConnection'  # Assurez-vous que le nom correspond à celui créé
     tags: |
       latest
   displayName: 'Build and push Docker image'
