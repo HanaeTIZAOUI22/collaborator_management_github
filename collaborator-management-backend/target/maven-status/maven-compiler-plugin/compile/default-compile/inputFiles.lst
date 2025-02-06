@@ -1,0 +1,6 @@
+/home/mtizaoui/dev/entretien/collaborator-management/collaborator-management-backend/src/main/java/com/company/model/Collaborator.java
+/home/mtizaoui/dev/entretien/collaborator-management/collaborator-management-backend/src/main/java/com/company/controller/CollaboratorController.java
+/home/mtizaoui/dev/entretien/collaborator-management/collaborator-management-backend/src/main/java/com/company/config/CorsConfiguration.java
+/home/mtizaoui/dev/entretien/collaborator-management/collaborator-management-backend/src/main/java/com/company/CollaboratorManagementApplication.java
+/home/mtizaoui/dev/entretien/collaborator-management/collaborator-management-backend/src/main/java/com/company/repository/CollaboratorRepository.java
+/home/mtizaoui/dev/entretien/collaborator-management/collaborator-management-backend/src/main/java/com/company/service/CollaboratorService.java
