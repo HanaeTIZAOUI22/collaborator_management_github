@@ -1,37 +1,54 @@
+# Nom du pipeline
 name: CI-CD Pipeline
 
+# Déclencheurs du pipeline
 trigger:
   branches:
     include:
       - main
 
+# Variables du pipeline
 variables:
   buildConfiguration: 'Release'
 
+# Pool d'agents Azure DevOps
 pool:
   vmImage: 'ubuntu-latest'
 
+# Étapes du pipeline
 steps:
-  - checkout: self
+# Étape 1 : Vérifier le code source
+- checkout: self
 
-  - task: UseNode@1
-    inputs:
-      version: '16.x'
+# Étape 2 : Installer Node.js
+- task: UseNode@1
+  inputs:
+    version: '16.x'
 
-  - script: |
-      npm install
-    displayName: 'Installer les dépendances'
+# Étape 3 : Installer les dépendances
+- script: |
+    npm install
+  displayName: 'Installer les dépendances'
 
-  - script: |
-      npm run build
-    displayName: 'collaborator_management'
+# Étape 4 : Installer xvfb pour créer un serveur X virtuel
+- script: |
+    sudo apt-get update
+    sudo apt-get install -y xvfb
+  displayName: 'Installer xvfb'
 
-  - script: |
-      npm test
-    displayName: 'Exécuter les tests'
+# Étape 5 : Construire l'application
+- script: |
+    npm run build
+  displayName: 'collaborator_management'
 
-  - task: PublishBuildArtifacts@1
-    inputs:
-      PathtoPublish: 'dist'
-      ArtifactName: 'drop'
-      publishLocation: 'Container'
+# Étape 6 : Exécuter les tests avec xvfb et Puppeteer
+- script: |
+    xvfb-run --auto-servernum --server-args="-screen 0 1024x768x24" npm test
+  displayName: 'Exécuter les tests'
+
+# Étape 7 : Publier les artefacts
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'dist'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
