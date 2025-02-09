@@ -3,7 +3,7 @@ name: Deploy to Azure
 on:
   push:
     branches:
-      - main  # Modifier si vous utilisez une autre branche principale
+      - master  # Modifier si vous utilisez une autre branche principale
 
 jobs:
   build-and-push:
