@@ -1,21 +1,47 @@
-# Node.js
-# Build a general Node.js project with npm.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
-
 trigger:
 - master
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '20.x'
-  displayName: 'Install Node.js'
+variables:
+  JAVA_HOME: '/usr/lib/jvm/java-11-openjdk-amd64'
+  MAVEN_OPTS: '-Xmx1024m'
+  IMAGE_NAME: 'collaborator_management_github'
 
-- script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
+stages:
+- stage: Build
+  jobs:
+  - job: Build
+    steps:
+    - task: UseJava@1
+      inputs:
+        versionSpec: '11'
+        jdkArchitectureOption: 'x64'
+    - task: Maven@3
+      inputs:
+        mavenPomFile: 'pom.xml'
+        goals: 'clean package'
+        javaHomeOption: 'JDKVersion'
+        mavenVersionOption: 'Default'
+        options: '-Xmx1024m'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathToPublish: '$(Build.ArtifactStagingDirectory)'
+        artifactName: 'drop'
+        publishLocation: 'Container'
+
+- stage: Deploy
+  jobs:
+  - job: Deploy
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'DockerRegistryServiceConnection'
+        repository: '$(IMAGE_NAME)'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: |
+          $(Build.BuildId)
